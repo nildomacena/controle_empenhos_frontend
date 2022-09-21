@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "gerencimento-empenhos": {
+      "hosting": {
+        "controle_empenhos": [
+          "gerencimento-empenhos"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "gerencimento-empenhos"
+  }
+}

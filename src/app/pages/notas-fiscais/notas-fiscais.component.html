@@ -1,0 +1,76 @@
+<div class="container pt-4">
+  <div class="row">
+    <div class="col-6">
+      <h3 class="center-align">Cadastrar Notas fiscais</h3>
+      <hr />
+      <form>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Número:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="recipient-name"
+              />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label"
+                >Data de Emissão:</label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="recipient-name"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label for="recipient-name"
+                >Filtrar nota de empenho:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="recipient-name"
+              />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="empenho">Nota de empenho</label>
+              <select
+                class="form-control"
+                id="empenho"
+              >
+                <option selected disabled>Selecione a nota de empenho</option>
+                <option [value]="empenho.id" *ngFor="let empenho of empenhos">
+                  {{ empenho.numero }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <label for="exampleFormControlTextarea1">Observações</label>
+            <textarea
+              class="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-6">
+      <h3 class="center-align">Notas fiscais cadastradas</h3>
+      <hr />
+    </div>
+  </div>
+</div>

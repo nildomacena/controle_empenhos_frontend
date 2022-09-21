@@ -1,0 +1,272 @@
+<div class="container">
+  <h2 class="center-align pt-3" (click)="onLogin()">Cadastro de empenhos</h2>
+  <hr />
+  <div class="card" *ngIf="empenhos">
+    <div class="card-header border-0">
+      <h3 class="card-title">Empenhos</h3>
+      <div class="card-tools">
+        <button
+          (click)="abrirModalCadastro()"
+          type="button"
+          class="btn btn-block btn-info btn-sm"
+        >
+          <i class="fa fa-plus"></i> Cadastrar NE
+        </button>
+      </div>
+    </div>
+    <div class="card-body table-responsive p-0">
+      <table class="table table-striped table-valign-middle">
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Fornecedor</th>
+            <th>Valor</th>
+            <th>Data Cadastro</th>
+            <th>Download</th>
+            <th>Atualizar status</th>
+            <th>Deletar empenho</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let empenho of empenhos">
+            <td>
+              {{ empenho.numero.toUpperCase() }}
+            </td>
+            <td>{{ empenho.fornecedor.nome }}</td>
+            <td>
+              {{ empenho.valor }}
+            </td>
+            <td>
+              {{ empenho.data | date: "dd/MM/yyyy" }}
+            </td>
+            <td style="text-align: center">
+              <a
+                (click)="downloadEmpenho(empenho)"
+                class="text-muted"
+                *ngIf="empenho.url; else semUrl"
+              >
+                <i class="fas fa-download"></i>
+              </a>
+              <ng-template #semUrl>
+                <i
+                  class="fas fa-download"
+                  style="color: rgb(223, 222, 222)"
+                ></i>
+              </ng-template>
+            </td>
+            <td style="text-align: center">
+              <a (click)="abrirModalAtualiza(empenho)" class="text-muted">
+                <i class="fas fa-pen"> </i>
+              </a>
+            </td>
+            <td style="text-align: center">
+              <a (click)="deletarEmpenho(empenho)" class="text-muted">
+                <i class="fas fa-trash" style="color: red"> </i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="modalCadastro" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cadastrar Nota de Empenho</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formEmpenho">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Número:</label>
+              <input
+                formControlName="numero"
+                type="text"
+                class="form-control"
+                id="recipient-name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="valor" class="col-form-label">Valor:</label>
+              <input
+                formControlName="valor"
+                type="number"
+                class="form-control"
+                id="valor"
+              />
+            </div>
+            <div class="form-group">
+              <label for="descricao" class="col-form-label"
+                >Descrição da nota de empenho:</label
+              >
+              <textarea
+                formControlName="descricao"
+                class="form-control"
+                id="descricao"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Fornecedor</label>
+              <select
+                class="form-control"
+                id="exampleFormControlSelect1"
+                formControlName="fornecedor"
+              >
+                <option selected disabled>Selecione o fornecedor</option>
+                <option
+                  [value]="fornecedor.id"
+                  *ngFor="let fornecedor of fornecedores"
+                >
+                  {{ fornecedor.nome }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="importFile"
+                  (change)="onFileChange($event)"
+                />
+                <label class="custom-file-label" #labelImport for="importFile"
+                  ><i class="fas fa-search"></i> Escolher Arquivo</label
+                >
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Fechar
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="onSalvarEmpenho()"
+          >
+            Cadastrar Empenho
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalUpdate" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <h5 class="modal-title">
+              Empenho {{ empenhoSelecionado?.numero }}
+            </h5>
+          </div>
+
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Fornecedor: {{ empenhoSelecionado?.fornecedor?.nome }}</h5>
+          <hr />
+          <div>
+            <h5>Registrar Movimentação</h5>
+            <form [formGroup]="formMovimentacao">
+              <div class="row">
+                <div class="form-group col-5">
+                  <label for="tipoMovimentacao">Tipo de movimentação</label>
+                  <select
+                    class="form-control"
+                    id="tipoMovimentacao"
+                    formControlName="tipo"
+                  >
+                    <option selected disabled>Selecione o tipo</option>
+                    <option
+                      [value]="movimentacao.id"
+                      *ngFor="let movimentacao of tiposMovimentacao"
+                    >
+                      {{ movimentacao.descricao }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-5 offset-2">
+                  <label for="recipient-name">Data da movimentação:</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="recipient-name"
+                    formControlName="data"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-12">
+                  <label for="descricao" class="col-form-label"
+                    >Observações</label
+                  >
+                  <textarea
+                    class="form-control"
+                    id="descricao"
+                    formControlName="observacoes"
+                  ></textarea>
+                </div>
+              </div>
+            </form>
+            <hr />
+            <h5>
+              {{
+                empenhoSelecionado?.movimentacoes &&
+                (empenhoSelecionado?.movimentacoes)!.length > 0
+                  ? "Movimentações anteriores"
+                  : "Sem Movimentações anteriores"
+              }}
+            </h5>
+            <div
+              class="overflow-auto movimentacoes container"
+              *ngIf="
+                empenhoSelecionado?.movimentacoes &&
+                (empenhoSelecionado?.movimentacoes)!.length > 0
+              "
+            >
+              <p *ngFor="let movimentacao of empenhoSelecionado?.movimentacoes">
+                {{ movimentacao.tipoMovimentacao.descricao }} -
+                {{ movimentacao.data | date }}
+              </p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Fechar
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              [disabled]="formMovimentacao.invalid"
+              (click)="onSalvarMovimentacao()"
+            >
+              Salvar alterações
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,175 @@
+<div
+  *ngIf="!fazerCadastro && !esqueceuSenha"
+  class="login-page vsc-initialized"
+  style="min-height: 596.781px"
+>
+  <div class="login-box">
+    <div class="login-logo">
+      <a><b>Acompanha</b>Empenhos</a>
+    </div>
+
+    <div class="card">
+      <div class="card-body login-card-body">
+        <p class="login-box-msg">Faça o login para acompanhar os empenhos</p>
+        <form action="../../index3.html" method="post">
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" placeholder="Email" />
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" placeholder="Senha" />
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="icheck-primary">
+                <input type="checkbox" id="remember" />
+                <label for="remember" class="pl-1"> Lembrar usuário </label>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <button
+                type="button"
+                (click)="login()"
+                class="btn btn-primary btn-block"
+              >
+                Fazer login
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <p class="mb-1">
+          <a (click)="toggleEsqueciSenha()" class="text-center"
+            >Esqueci a senha</a
+          >
+        </p>
+        <p class="mb-0">
+          <a (click)="toggleFazerCadastro()" class="text-center"
+            >Fazer cadastro</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="fazerCadastro"
+  class="register-page vsc-initialized"
+  style="min-height: 570.781px"
+>
+  <div class="register-box">
+    <div class="register-logo">
+      <a><b>Acompanha</b>Empenhos</a>
+    </div>
+    <div class="card">
+      <div class="card-body register-card-body">
+        <p class="login-box-msg">Fazer novo cadastro</p>
+        <form action="../../index.html" method="post">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Seu nome" />
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" placeholder="Email" />
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" placeholder="Senha" />
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Confirmar senha"
+            />
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8"></div>
+
+            <div class="col-4">
+              <button type="submit" class="btn btn-primary btn-block">
+                Cadastar
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <a (click)="toggleLogin()" class="text-center">Já possuo usuário</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- sidebar-mini layout-fixed layout-navbar-fixed vsc-initialized sidebar-collapse -->
+<body
+  *ngIf="esqueceuSenha"
+  class="login-page vsc-initialized"
+  style="min-height: 332.781px"
+>
+  <div class="login-box">
+    <div class="login-logo">
+      <a href="../../index2.html"><b>Admin</b>LTE</a>
+    </div>
+
+    <div class="card">
+      <div class="card-body login-card-body">
+        <p class="login-box-msg">
+          You forgot your password? Here you can easily retrieve a new password.
+        </p>
+        <form action="recover-password.html" method="post">
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" placeholder="Email" />
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-block">
+                Solicitar mudança de senha
+              </button>
+            </div>
+          </div>
+        </form>
+        <p class="mt-3 mb-1">
+          <a (click)="toggleLogin()">Login</a>
+        </p>
+        <p class="mb-0">
+          <a (click)="toggleFazerCadastro()" class="text-center"
+            >Cadastrar novo usuário</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
